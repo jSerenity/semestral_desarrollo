@@ -33,51 +33,36 @@
 				<img src="images/img-03.png" alt="IMG">
 			</div>
 
-			<form class="contact1-form validate-form" method="post" action="/Proyecto_Final_AGarrido/AdminUsers?accion=userAdd" >
+			<form class="contact1-form validate-form" method="post" action="/Proyecto_Final_AGarrido/AdminUsers?accion=userUpdate" >
 				<span class="contact1-form-title">
-					Datos del nuevo usuario
+					Busqueda de usuario por correo
 				</span>
-
-				<div class="wrap-input1 validate-input" data-validate = "El nombre es requerido">
-					<input class="input1" type="text" name="name" id="name" placeholder="Nombre completo">
-					<span class="shadow-input1"></span>
-				</div>
 
 				<div class="wrap-input1 validate-input" data-validate = "El correo es requerido: ejemplo@abc.com">
 					<input class="input1" type="text" name="email" id="email" placeholder="Correo Electrónico">
 					<span class="shadow-input1"></span>
 				</div>
 
-				<div class="wrap-input1 validate-input" data-validate = "La contraseña es requerida">
-					<input class="input1" type="text" name="password" id="password" placeholder="Contraseña">
-					<span class="shadow-input1"></span>
-				</div>
-
-				<div class="wrap-input1 validate-input" data-validate = "Tipo de usuario requerido">
-					<!--  <textarea class="input1" name="rolId" placeholder="Message"></textarea>
-					<span class="shadow-input1"></span>-->
-					<select class="input1" style="
-						    height: 50px;
-						    border-radius: 25px;
-						    padding: 0 30px;
-						" id="rolId" name="rolId">
-					    <option value="" disabled selected>Select your option</option>
-					    <option value="1">Administrador</option>
-					     <option value="2">Cajera</option>
-					      <option value="3">Inventario</option>
-					</select>
-					<span class="shadow-input1"></span>
-				</div>
-
 				<div class="container-contact1-form-btn">
 					<button  class="contact1-form-btn">
 						<span>
-							Crear Usuario
+							Buscar Usuario
 							<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
 						</span>
 					</button>
 					
 				</div>
+				<%if(request.getAttribute("error")!=null){%>
+				<div class="wrap-input1 validate-input" >
+					<P class="input1"><% out.println(request.getAttribute("error"));%>	</p>
+					<span class="shadow-input1"></span>
+				</div>
+		      <%} if(request.getAttribute("good")!=null){%>
+				<div class="wrap-input1 validate-input" >
+					<P class="input1"><% out.println(request.getAttribute("good"));%>	</p>
+					<span class="shadow-input1"></span>
+				</div>
+				<%}%>
 			</form>
 			
 		</div>
@@ -101,7 +86,7 @@
 		})
 	</script>
 <!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/js/mainUsersAdd.js"></script>
+	<script src="<%=request.getContextPath()%>/js/validateUpdate.js"></script>
 
 </body>
 </html>

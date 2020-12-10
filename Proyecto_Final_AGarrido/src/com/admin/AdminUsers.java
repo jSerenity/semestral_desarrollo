@@ -62,7 +62,7 @@ public class AdminUsers extends HttpServlet {
 				 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/Add/CreateUser.jsp").forward(request,response);
 			 }
 			 else if (accion.equals("updateUser")){
-				 getServletContext().getRequestDispatcher(rutaJsp+"index.jsp").forward(request,response);
+				 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/UpdateUser.jsp").forward(request,response);
 			 }
 			 /* else if (accion.equals("logout")){
 				 sesion.invalidate();
@@ -93,16 +93,24 @@ public class AdminUsers extends HttpServlet {
 		
 		if (accion !=null) {
 			 if (accion.equals("userAdd")){
+				 
 				 String nombre=request.getParameter("name");
 				 String email=request.getParameter("email");
 				 String password=request.getParameter("password");
-				 int rolId= Integer.parseInt(request.getParameter("rolId"));
-				
+				 String rolId= request.getParameter("rolId");
+				 if(nombre=="" || email=="" || password=="" || rolId==null) {
+					 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/Add/CreateUser.jsp").forward(request,response);
+				 }
+				 int rolValue =0;
+				 //System.out.println(rolId);
+				if(rolId!="" && rolId!=null) {
+					rolValue= Integer.parseInt(rolId);
+				}
 				 Administrador user = new Administrador();
 				 user.setNombre(nombre);
 				 user.setEmail(email);
 				 user.setPassword(password);
-				 user.setRolId(rolId);
+				 user.setRolId(rolValue);
 				 user.setCon(con);
 				 
 				 if(!user.CheckUserName()) {
@@ -115,7 +123,58 @@ public class AdminUsers extends HttpServlet {
 				 }else {
 					 request.setAttribute("addUserResponse","El usuario ya existe");
 				 }
-				 getServletContext().getRequestDispatcher(rutaJsp+"Admin/Add/PostAddUser.jsp").forward(request,response);
+				 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/PostAddUser.jsp").forward(request,response);
+			 }else if(accion.equals("userUpdate")) {
+				 String email=request.getParameter("email");
+				 Administrador user = new Administrador();
+				 Administrador resp = new Administrador();
+				 user.setCon(con);
+				 user.setEmail(email);
+				 resp = user.getusuario();
+				// System.out.println(email);
+				 if(resp.getId()>0) {
+					 request.setAttribute("nombre",resp.getNombre());
+					 request.setAttribute("id",resp.getId());
+					 request.setAttribute("email",resp.getEmail());
+					 //request.setAttribute("password",resp.getPassword());
+					 request.setAttribute("estado",resp.getEstados());
+					 request.setAttribute("rolId",resp.getRolId());
+					 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/postGetUsuario.jsp").forward(request,response);
+				 }else {
+					 request.setAttribute("error","Usuario no encontrado");
+					 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/UpdateUser.jsp").forward(request,response);
+				 }
+			 }else if(accion.equals("userUpdatePost")) {
+				 String nombre=request.getParameter("name");
+				 String email=request.getParameter("email");
+				 String id =request.getParameter("id");
+				 String rolId= request.getParameter("rolId");
+				 String estado= request.getParameter("estado");
+				 Administrador user = new Administrador();
+				
+				 if(id!="" && id!=null) {
+					 user.setId(Integer.parseInt(id));;
+					}
+				 user.setNombre(nombre);
+				 user.setEmail(email);
+				 user.setEstados(estado);
+				 if(rolId!="" && rolId!=null) {
+					 user.setRolId(Integer.parseInt(rolId));;
+					}
+				 user.setCon(con);
+				 if(user.actualiarUsuario()) {
+					 request.setAttribute("good","Usuario fue actualiado");
+					 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/UpdateUser.jsp").forward(request,response);
+				 }else{
+					 request.setAttribute("nombre",user.getNombre());
+					 request.setAttribute("id",user.getId());
+					 request.setAttribute("email",user.getEmail());
+					 //request.setAttribute("password",resp.getPassword());
+					 request.setAttribute("estado",user.getEstados());
+					 request.setAttribute("rolId",user.getRolId());
+					 request.setAttribute("error","Usuario no fue actualiado");
+					 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/postGetUsuario.jsp").forward(request,response);
+				 }
 			 }
 		}
 		else {

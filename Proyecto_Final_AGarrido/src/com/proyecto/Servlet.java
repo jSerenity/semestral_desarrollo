@@ -110,6 +110,12 @@ public class Servlet extends HttpServlet {
 						 if(uselogin.getRolId()==1) {
 							 sesion.setAttribute("rol","1");
 							 getServletContext().getRequestDispatcher(rutaJsp+"Admin/Administrador.jsp").forward(request,response); 
+						 }else if(uselogin.getRolId()==2) {
+							 sesion.setAttribute("rol","2");
+							 getServletContext().getRequestDispatcher(rutaJsp+"Admin/Administrador.jsp").forward(request,response);
+						 }else if(uselogin.getRolId()==3) {
+							 sesion.setAttribute("rol","3");
+							 getServletContext().getRequestDispatcher(rutaJsp+"Admin/Administrador.jsp").forward(request,response);
 						 }
 					    }else {
 					    	System.out.println("Usuario o Contraseña Incorrecta");

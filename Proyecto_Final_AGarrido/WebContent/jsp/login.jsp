@@ -30,7 +30,7 @@
 					<img src="images/img-01.png" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" method="post" action="?accion=iniciarSeccion" class="form-signin">
+				<form class="login100-form validate-form form-signin" method="post" action="?accion=iniciarSeccion">
 					<span class="login100-form-title">
 						Inicio de Sesión
 					</span>
