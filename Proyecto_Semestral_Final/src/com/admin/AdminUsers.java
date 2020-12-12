@@ -123,7 +123,7 @@ public class AdminUsers extends HttpServlet {
 				 }else {
 					 request.setAttribute("addUserResponse","El usuario ya existe");
 				 }
-				 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/PostAddUser.jsp").forward(request,response);
+				 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/Add/PostAddUser.jsp").forward(request,response);
 			 }else if(accion.equals("userUpdate")) {
 				 String email=request.getParameter("email");
 				 Administrador user = new Administrador();

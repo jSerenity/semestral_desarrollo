@@ -45,7 +45,7 @@
 				<div class="container-contact1-form-btn">
 					<button class="contact1-form-btn">
 						<span>
-							<a href="/Proyecto_Final_AGarrido/AdminUsers?accion=createUser">Regresar</a>
+							<a href="/Proyecto_Semestral_Final/AdminUsers?accion=createUser">Regresar</a>
 							<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 						</span>
 					</button>
