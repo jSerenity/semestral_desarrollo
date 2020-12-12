@@ -37,7 +37,7 @@
 	        Inventario
 	      </a>
 	      <div class="dropdown-menu">
-	        <a class="dropdown-item" href="#">Crear Producto</a>
+	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletInventario?accion=registroProd">Crear Producto</a>
 	        <a class="dropdown-item" href="#">Actualizar Inventario</a>
 	      </div>
 	    </li>

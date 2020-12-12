@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
-  <display-name>Proyecto_Final_AGarrido</display-name>
+  <display-name>Proyecto_Semestral_Final</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -42,5 +42,19 @@
   <servlet-mapping>
     <servlet-name>AdminUsers</servlet-name>
     <url-pattern>/AdminUsers</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ServletInventario</display-name>
+    <servlet-name>ServletInventario</servlet-name>
+    <servlet-class>com.inventario.ServletInventario</servlet-class>
+    <init-param>
+      <param-name>rutaJsp</param-name>
+      <param-value>/jsp/</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ServletInventario</servlet-name>
+    <url-pattern>/ServletInventario</url-pattern>
   </servlet-mapping>
 </web-app>
