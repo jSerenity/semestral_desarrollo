@@ -81,4 +81,29 @@ public boolean crearProducto(){
 	}else return true;
 	
 }
+public Administrador getusuario(){
+	
+
+	Producto resp = new Producto(); 
+	String sql="select id, nombre, email, password, estado, rolId FROM usuarios where email =?";
+	try {
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, this.getCodigo());
+		 
+		ResultSet rs=st.executeQuery();
+		
+		while (rs.next()) {
+			System.out.println(rs.getInt("rolId"));
+			resp.setNombre(rs.getString("nombre"));
+			
+		}
+		rs.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	return resp;
+	
+}
 }
