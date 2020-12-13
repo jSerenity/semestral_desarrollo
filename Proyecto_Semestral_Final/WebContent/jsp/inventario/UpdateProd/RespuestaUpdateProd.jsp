@@ -1,7 +1,10 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>REGISTRO PRODUCTO</title>
+	<title>Contact V1</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/formulario.css" type="text/css"/>
@@ -25,45 +28,60 @@
 <body>
 
 <%@include file="../../barra.jsp" %>
-
+<% int i=0; String color=""; %>
 	<div class="contact1">
 		<div class="container-contact1">
-
-			<div class="contact1-pic js-tilt" data-tilt>
-				<img src="images/img-03.png" alt="IMG">
-			</div>
-
-			<form class="contact1-form validate-form" method="post" action="/Proyecto_Semestral_Final/ServletInventario?accion=ProdutAdd" >
+			<form style="width: 100%;">
 				<span class="contact1-form-title">
-					Datos del nuevo producto
+					Inventario de productos
 				</span>
 
-				<div class="wrap-input1 validate-input" data-validate = "El codigo del producto es requerido">
-					<input class="input1" type="text" name="codigo" id="codigo" placeholder="Codigo de producto">
-					<span class="shadow-input1"></span>
-				</div>
-				<div class="wrap-input1 validate-input" data-validate = "El nombre del producto es requerido">
-					<input class="input1" type="text" name="name" id="name" placeholder="Codigo de producto">
-					<span class="shadow-input1"></span>
-				</div>
-				<div class="wrap-input1 validate-input" data-validate = "El precio del producto es requerido">
-					<input class="input1" type="text" name="precio" id="precio" placeholder="Precio unitario">
-					<span class="shadow-input1"></span>
-				</div>
-				<%if(request.getAttribute("error")!=null){%>
 				<div class="wrap-input1 validate-input" >
-					<P class="input1"><% out.println(request.getAttribute("error"));%>	</p>
+					<P class="input1"><% out.println(request.getAttribute("upProdResponse"));%>	</p>
 					<span class="shadow-input1"></span>
 				</div>
-		      <%}%>
+				<div class="row">
+					<div class="col">
+						<table class="table table-sm table-hover table-bordered table-responsive-lg">
+							<thead>
+								<tr>
+									<th>Codigo</th>
+									<th>Nombre</th>
+									<th>Precio</th>
+									<th>Cantidad inicial</th>
+									<th>Cantidad Vendida</th>
+									<th>Cantidad stock</th>
+								</tr>
+							</thead>
+							<c:forEach items="${productos}" var="objeto">
+							<%  if (i==0){ 
+									color="table-success";
+									i=1;
+								}else {
+									color="bg-primary text-white";
+									i=0;
+								}
+							
+							%>	
+								<tr class="<%=color%>">
+									<td><c:out value="${objeto.codigo}"/></td>
+									<td><c:out value="${objeto.nombre}"/></td>
+									<td><c:out value="${objeto.precio}"/></td>
+									<td><c:out value="${objeto.existencia}"/></td>
+									<td><c:out value="${objeto.vendidos}"/></td>
+									<td><c:out value="${objeto.total}"/></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+				</div>
 				<div class="container-contact1-form-btn">
-					<button  class="contact1-form-btn">
+					<button class="contact1-form-btn">
 						<span>
-							Crear Producto
-							<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+							<a href="/Proyecto_Semestral_Final/ServletInventario?accion=updateProd">Regresar</a>
+							<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 						</span>
 					</button>
-					
 				</div>
 			</form>
 			
@@ -88,16 +106,5 @@
 		})
 	</script>
 <!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/js/mainAddProducto.js"></script>
-<script type="text/javascript">
-$("#precio").on("keyup", function(){
-    var valid = /^(\d{1,3})(\.\d{2})$/.test(this.value),
-        val = this.value;
-    
-    if(!valid){
-        this.value = val.substring(0, val.length - 1);
-    }
-});
-</script>
 </body>
 </html>

@@ -7,7 +7,7 @@
     [ Validate ]*/
     var name = $('.validate-input input[name="name"]');
     var codigo = $('.validate-input input[name="codigo"]');
-
+    var precio = $('.validate-input input[name="precio"]');
     //var roles = $('.validate-input textarea[name="rolId"]');
     $('.validate-form').on('submit',function(){
         var check = true;
@@ -22,6 +22,10 @@
             check=false;
         }
 
+		if($(precio).val().trim() == ''){
+            showValidate(precio);
+            check=false;
+        }
         return check;
     });
 

@@ -5,10 +5,34 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
+
 public class Producto {
 	private String Codigo;
 	private String Nombre;
 	private int Existencia;
+	private int Vendidos;
+	private int Total; 
+	private double precio;
+	
+	public double getPrecio() {
+		return precio;
+	}
+	public void setPrecio(double precio) {
+		this.precio = precio;
+	}
+	public int getTotal() {
+		return Total;
+	}
+	public void setTotal(int total) {
+		Total = total;
+	}
+	public int getVendidos() {
+		return Vendidos;
+	}
+	public void setVendidos(int vendidos) {
+		Vendidos = vendidos;
+	}
 	private Connection con;
 	public Connection getCon() {
 		return con;
@@ -63,9 +87,11 @@ public boolean CheckCodigoProducto() {
 public boolean crearProducto(){
 	int cta=0;
 	try {
-		PreparedStatement st = con.prepareCall("{call sp_insertar_producto(?,?)}");
+		PreparedStatement st = con.prepareCall("{call sp_insertar_producto(?,?,?)}");
 		st.setString(1, this.getNombre());
 		st.setString(2, this.getCodigo());
+		st.setDouble(3, this.getPrecio());
+		
 		ResultSet rs=st.executeQuery();
 		if (rs.next()) {
 			cta=rs.getInt("resultado");
@@ -81,29 +107,5 @@ public boolean crearProducto(){
 	}else return true;
 	
 }
-public Administrador getusuario(){
-	
 
-	Producto resp = new Producto(); 
-	String sql="select id, nombre, email, password, estado, rolId FROM usuarios where email =?";
-	try {
-		PreparedStatement st = con.prepareStatement(sql);
-		st.setString(1, this.getCodigo());
-		 
-		ResultSet rs=st.executeQuery();
-		
-		while (rs.next()) {
-			System.out.println(rs.getInt("rolId"));
-			resp.setNombre(rs.getString("nombre"));
-			
-		}
-		rs.close();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	
-	return resp;
-	
-}
 }
