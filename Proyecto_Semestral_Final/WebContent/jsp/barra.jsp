@@ -25,7 +25,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	        <a class="dropdown-item" href="#">Facturar</a>
-	        <a class="dropdown-item" href="#">Crear Cliente</a>
+	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCajera?accion=createCliente">Crear Cliente</a>
 	        <a class="dropdown-item" href="#">Actualizar Cliente</a>
 	      </div>
 	    </li>

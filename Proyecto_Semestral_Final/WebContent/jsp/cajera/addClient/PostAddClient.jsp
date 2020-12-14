@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>REGISTRO PRODUCTO</title>
+	<title>Contact V1</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="<%=request.getContextPath()%>/css/formulario.css" type="text/css"/>
@@ -33,37 +33,22 @@
 				<img src="images/img-03.png" alt="IMG">
 			</div>
 
-			<form class="contact1-form validate-form" method="post" action="/Proyecto_Semestral_Final/ServletInventario?accion=ProdutAdd" >
+			<form class="contact1-form validate-form">
 				<span class="contact1-form-title">
-					Datos del nuevo producto
+					Respuesta creacion de clientes
 				</span>
 
-				<div class="wrap-input1 validate-input" data-validate = "El codigo del producto es requerido">
-					<input class="input1" type="text" name="codigo" id="codigo" placeholder="Codigo de producto">
+				<div class="wrap-input1 validate-input" data-validate = "El nombre es requerido">
+					<P class="input1"><% out.println(" Tu usuario es :"+request.getAttribute("addClientResponse"));%>	</p>
 					<span class="shadow-input1"></span>
 				</div>
-				<div class="wrap-input1 validate-input" data-validate = "El nombre del producto es requerido">
-					<input class="input1" type="text" name="name" id="name" placeholder="Nombre de producto">
-					<span class="shadow-input1"></span>
-				</div>
-				<div class="wrap-input1 validate-input" data-validate = "El precio del producto es requerido">
-					<input class="input1" type="text" name="precio" id="precio" placeholder="Precio unitario">
-					<span class="shadow-input1"></span>
-				</div>
-				<%if(request.getAttribute("error")!=null){%>
-				<div class="wrap-input1 validate-input" >
-					<P class="input1"><% out.println(request.getAttribute("error"));%>	</p>
-					<span class="shadow-input1"></span>
-				</div>
-		      <%}%>
 				<div class="container-contact1-form-btn">
-					<button  class="contact1-form-btn">
+					<button class="contact1-form-btn">
 						<span>
-							Crear Producto
-							<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+							<a href="/Proyecto_Semestral_Final/ServletCajera?accion=createCliente">Regresar</a>
+							<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 						</span>
 					</button>
-					
 				</div>
 			</form>
 			
@@ -88,16 +73,7 @@
 		})
 	</script>
 <!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/js/mainAddProducto.js"></script>
-<script type="text/javascript">
-/*$("#precio").on("keyup", function(){
-    var valid = /^(\d{1,3})(\.\d{2})$/.test(this.value),
-        val = this.value;
-    
-    if(!valid){
-        this.value = val.substring(0, val.length - 1);
-    }
-});*/
-</script>
+
+
 </body>
 </html>
