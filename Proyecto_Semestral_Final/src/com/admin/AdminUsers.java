@@ -64,10 +64,10 @@ public class AdminUsers extends HttpServlet {
 			 else if (accion.equals("updateUser")){
 				 getServletContext().getRequestDispatcher(rutaJsp+"/Admin/UpdateUser/UpdateUser.jsp").forward(request,response);
 			 }
-			 /* else if (accion.equals("logout")){
-				 sesion.invalidate();
-				 getServletContext().getRequestDispatcher(rutaJsp+"login.jsp").forward(request,response);
-			 }
+			  else if (accion.equals("inicio")){
+				
+				  getServletContext().getRequestDispatcher(rutaJsp+"Admin/Administrador.jsp").forward(request,response); 
+			 }/*
 			else if (accion.equals("iniciarSeccion")){
 				 getServletContext().getRequestDispatcher(rutaJsp+"postLogin.jsp").forward(request,response);
 			 }*/

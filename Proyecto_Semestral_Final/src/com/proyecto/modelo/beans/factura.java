@@ -1,12 +1,28 @@
 package com.proyecto.modelo.beans;
 
+import java.sql.Date;
+
 public class factura {
 	private int Id;
 	private String Codigo;
 	private String Nombre;
+	
 	private int Cantidad;
 	private double Precio;
 	private double Total;
+	private Date fecha;
+	public Date getFecha() {
+		return fecha;
+	}
+	public void setFecha(Date fecha) {
+		this.fecha = fecha;
+	}
+	public String getNombre() {
+		return Nombre;
+	}
+	public void setNombre(String nombre) {
+		Nombre = nombre;
+	}
 	public int getId() {
 		return Id;
 	}

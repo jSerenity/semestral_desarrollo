@@ -26,6 +26,7 @@
 	      </a>
 	      <div class="dropdown-menu">
 	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCajera?accion=CrearFactura">Facturar</a>
+	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCajera?accion=Listafacturas">Listar Facturas</a>
 	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCajera?accion=createCliente">Crear Cliente</a>
 	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletCajera?accion=updateCliente">Actualizar Cliente</a>
 	      </div>
@@ -40,6 +41,7 @@
 	      <div class="dropdown-menu">
 	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletInventario?accion=registroProd">Crear Producto</a>
 	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletInventario?accion=updateProd">Actualizar Inventario</a>
+	        <a class="dropdown-item" href="<%=request.getContextPath()%>/ServletInventario?accion=verInventario">Ver Inventario</a>
 	      </div>
 	    </li>
 	<%

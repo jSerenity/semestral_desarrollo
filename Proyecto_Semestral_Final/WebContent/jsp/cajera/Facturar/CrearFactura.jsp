@@ -65,8 +65,8 @@
 				<div class="row">
 					<div class="col">
 						 <div>
-						 <div class="wrap-input1 validate-input" data-validate = "Tipo de usuario requerido">
-					<label for="formGroupExampleInput">Seleccione el ccliente</label>
+						 <div class="wrap-input1 validate-input" data-validate = "Cliente requerido">
+					<label for="formGroupExampleInput">Seleccione el cliente</label>
 					<select class="input1" style="
 						    height: 50px;
 						    border-radius: 25px;
@@ -79,7 +79,7 @@
 					</select>
 					<span class="shadow-input1"></span>
 				</div>
-        <div class="wrap-input1 validate-input" data-validate = "Tipo de usuario requerido">
+        <div class="wrap-input1 validate-input" data-validate = "producto requerido">
 					<label for="formGroupExampleInput">Seleccione el producto</label>
 					<select class="input1" style="
 						    height: 50px;
@@ -98,31 +98,33 @@
 					<input class="input1" type="text" name="cantidad" id="cantidad" placeholder="cantidad" >
 					<span class="shadow-input1"></span>
 				</div>
-    	<input type="button" class="contact1-form-btn" id="agregar" value="Agregar">
-    </div>
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Codigo</th>
-                <th>Descripción</th>
-                <th>cantidad</th>
-                <th>Precio por unidad</th>
-                <th>valor</th>
-                <th>Eliminar</th>
-            </tr>
-        </thead>
-        <tbody>
-        
-        </tbody>
-    </table>
-					</div>
+    				<input type="button" class="contact1-form-btn" id="agregar" value="Agregar">
+    			</div>
+    			<div style="margin-top: 20px;">
+			     <table>
+			        <thead>
+			            <tr>
+			                <th>#</th>
+			                <th>Codigo</th>
+			                <th>Descripción</th>
+			                <th>cantidad</th>
+			                <th>Precio por unidad</th>
+			                <th>valor</th>
+			                <th>Eliminar</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        
+			        </tbody>
+			    </table>
+   			 </div>
+			</div>
 				</div>
 				
 				<div class="container-contact1-form-btn">
 				<a class="contact1-form-btn" id="submit">Crear factura
 					<span>
-						<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+						<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
 					</span>
 				</a>
 				</div>
@@ -151,16 +153,34 @@
 	</script>
 	<script>
     $(document).ready(function(){
+    	
+    	$('#codigoProducto').each(function(){
+	        $(this).focus(function(){
+	           hideValidate2(this);
+	        });
+	    });
+    	$('#cantidad').each(function(){
+	        $(this).focus(function(){
+	           hideValidate2(this);
+	        });
+	    });
+    	$('#codigoCliente').each(function(){
+	        $(this).focus(function(){
+	           hideValidate2(this);
+	        });
+	    });
+    	
         $("#agregar").click(function(){
             var codigo = $("#codigoProducto").val();
             var cantidad = $("#cantidad").val();
-          
+
             var Nombre;
         	var Existencia;
     		var valor;
     		var Total;
     		var precio;
-    		if(codigo!=""){ $.get('ServletInventario', {
+    		if(codigo!="" && cantidad !=""){ 
+    			$.get('ServletInventario', {
             	accion:'getProductoValues',
                 codigoProd : codigo
 		        }, function(responseText) {
@@ -178,6 +198,15 @@
 		    			toastr.info('No hay suficiente stock de'+ Nombre+ ' para esta cantidad: '+cantidad)
 		    		}
 		        });
+    		}else{
+    			if(validate2($("#codigoProducto")) == false){
+	                showValidate2($("#codigoProducto"));
+	                check=false;
+	            }
+    			if(validate3($("#cantidad")) == false){
+	                showValidate2($("#cantidad"));
+	                check=false;
+	            }
     		}
     		
             
@@ -198,17 +227,29 @@
         });
         $("#submit").click(function() {
         	   //var orderId =  $("#orderId").val();
+        	   
 				var codigo = $("#codigoCliente").val();
-        	   $.post('ServletCajera', {
-        		   dataType: 'json',
-            	accion:'facturar',
-            	cliente:codigo,
-            	data: JSON.stringify(get())
-		        },
-        	   function(data) {
-        	     alert("Data Loaded: " + data);
-        	   });
-        	   })
+				if(codigo!=null){
+					 $.post('ServletCajera', {
+		        		   dataType: 'json',
+		            	accion:'facturar',
+		            	cliente:codigo,
+		            	data: JSON.stringify(get())
+				        },
+		        	   function(data) {
+				        	var url="ServletCajera?accion=Listafacturas";
+				        	$(location).attr('href',url);
+				        	console.log(JSON.stringify(data));
+				        	//toastr.success(data);
+		        	   });
+		        	  
+				}else{
+					if(validate2($("#codigoCliente")) == false){
+		                showValidate2($("#codigoCliente"));
+		                check=false;
+		            }
+				}
+        })
     }); 
     function get(){
     	  var table = $('table');
@@ -227,6 +268,26 @@
     	        
     	  });
     	  return data;
+    	}
+    function validate2 (input) {
+    	   if($(input).val()== null){
+    	       return false;
+    	   }
+    	}
+    function validate3 (input) {
+ 	   if($(input).val().trim() == ''){
+ 	       return false;
+ 	   }
+ 	}
+    	function showValidate2(input) {
+    	    var thisAlert = $(input).parent();
+    	    $(thisAlert).addClass('alert-validate');
+    	}
+
+    	function hideValidate2(input) {
+    	    var thisAlert = $(input).parent();
+
+    	    $(thisAlert).removeClass('alert-validate');
     	}
 </script>
 <!--===============================================================================================-->

@@ -164,4 +164,29 @@ public boolean insertar_productos_de_factura(int idFact,factura list) {
 	}else return true;
 	
 }
+public ArrayList<factura> getFacturas() {
+	
+	
+	ArrayList<factura>  lista = new ArrayList<factura>(); 
+	String sql="SELECT a.Id, b.Nombre,b.Apellido,DATE_FORMAT( a.Fecha , '%d-%m-%Y %r' ) as fechafa , a.Monto FROM facturas a INNER join clientes b on a.ClienteId=b.Id";
+	try {
+		PreparedStatement st = con.prepareStatement(sql);
+		ResultSet rs=st.executeQuery();
+		while (rs.next()) {
+			factura objeto = new factura();
+			objeto.setId(rs.getInt("Id"));
+			objeto.setNombre(rs.getString("Nombre")+" "+rs.getString("Apellido"));
+			objeto.setTotal(rs.getDouble("Monto"));
+			objeto.setFecha(rs.getDate("fechafa"));
+			lista.add(objeto);
+		}
+		rs.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		System.out.println("Error en la consulta");
+	}
+	System.out.println("TEST "+lista.size());
+	return lista;
+}
 }

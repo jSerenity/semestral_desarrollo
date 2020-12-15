@@ -106,6 +106,18 @@ public class ServletInventario extends HttpServlet {
 				 response.setContentType("application/json");
 				 response.setCharacterEncoding("UTF-8");
 				 response.getWriter().write(productojson);
+			 }else if(accion.equals("verInventario")) {
+				 
+				 ArrayList<Producto> lista = new inventario(con).getproductos();
+					
+					if (lista.isEmpty()) {
+						
+					}else {
+					
+						request.setAttribute("productos", lista);
+					}
+
+				 getServletContext().getRequestDispatcher(rutaJsp+"/inventario/UpdateProd/RespuestaUpdateProd.jsp").forward(request,response);
 			 }
 			
 		}

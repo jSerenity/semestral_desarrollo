@@ -38,7 +38,9 @@
 				</span>
 
 				<div class="wrap-input1 validate-input" >
+				<%if(request.getAttribute("upProdResponse")!=null){%>
 					<P class="input1"><% out.println(request.getAttribute("upProdResponse"));%>	</p>
+					<%}%>
 					<span class="shadow-input1"></span>
 				</div>
 				<div class="row">
@@ -46,15 +48,13 @@
 						<table class="table table-sm table-hover table-bordered table-responsive-lg">
 							<thead>
 								<tr>
-									<th>Codigo</th>
+									<th>#</th>
 									<th>Nombre</th>
-									<th>Precio</th>
-									<th>Cantidad inicial</th>
-									<th>Cantidad Vendida</th>
-									<th>Cantidad stock</th>
+									<th>Fecha</th>
+									<th>Monto</th>
 								</tr>
 							</thead>
-							<c:forEach items="${productos}" var="objeto">
+							<c:forEach items="${facturaslist}" var="objeto">
 							<%  if (i==0){ 
 									color="table-success";
 									i=1;
@@ -65,11 +65,9 @@
 							
 							%>	
 								<tr class="<%=color%>">
-									<td><c:out value="${objeto.codigo}"/></td>
+									<td><c:out value="${objeto.id}"/></td>
 									<td><c:out value="${objeto.nombre}"/></td>
-									<td><c:out value="${objeto.precio}"/></td>
-									<td><c:out value="${objeto.existencia}"/></td>
-									<td><c:out value="${objeto.vendidos}"/></td>
+									<td><c:out value="${objeto.fecha}"/></td>
 									<td><c:out value="${objeto.total}"/></td>
 								</tr>
 							</c:forEach>
@@ -77,7 +75,7 @@
 					</div>
 				</div>
 				<div class="container-contact1-form-btn">
-				<a class="contact1-form-btn" >Regresar
+				<a class="contact1-form-btn" href="AdminUsers?accion=inicio">Regresar inicio
 					<span>
 						<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 					</span>

@@ -153,6 +153,11 @@ public class ServletCajera extends HttpServlet {
 					}
 					
 				 getServletContext().getRequestDispatcher(rutaJsp+"/cajera/Facturar/CrearFactura.jsp").forward(request,response);
+			 }else if(accion.equals("Listafacturas")) {
+				 
+				 ArrayList<factura> facturaslist = new caja(con).getFacturas();
+		    	  request.setAttribute("facturaslist",facturaslist);
+		    	  getServletContext().getRequestDispatcher(rutaJsp+"/cajera/Facturar/Listafacturas.jsp").forward(request,response);
 			 }
 			
 		}
@@ -271,15 +276,26 @@ public class ServletCajera extends HttpServlet {
 				    System.out.println(cliente+"/ "+ monto);
 				  int facturaID= new caja(con).crearFactura(cliente, monto);
 				  System.out.println(facturaID);
+				  String datReturnsa="";
 			    for(factura f: productosL) {
 			    	
 			    	boolean result = new caja(con).insertar_productos_de_factura(facturaID, f);
 			    	if(result) {
-			    		System.out.println("GEST");
+			    		datReturnsa = "Factura Creada Correctamente";
+			    		System.out.println("YES");
+			    	}else {
+			    		datReturnsa = "Factura no fue creada";
 			    	}
 			    }
-			    
-				System.out.println(productojson);
+			      if(facturaID>0) {
+			    	  
+			    	  response.sendRedirect("ServletCajera?accion=Listafacturas");
+			    	  //getServletContext().getRequestDispatcher(rutaJsp+"/cajera/Facturar/Listafacturas.jsp").forward(request,response);
+			      }
+				
+				 response.setContentType("application/json");
+				 response.setCharacterEncoding("UTF-8");
+				 response.getWriter().write(datReturnsa);
 			 }
 		}
 		else {

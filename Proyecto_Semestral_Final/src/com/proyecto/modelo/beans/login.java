@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.ejemplo.modelo.beans.Administrador;
 
@@ -105,5 +106,99 @@ public class login {
 	    catch (NoSuchAlgorithmException e) { 
 	        throw new RuntimeException(e); 
 	    } 
-	} 
+	}
+	
+public boolean loginCheckEmail(String email) {
+		
+		String sql="Select count(*) as dato from usuarios where email=? and estado='A'";
+		int cta=0;
+		
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, email);
+			
+			ResultSet rs=st.executeQuery();
+			
+			if (rs.next()) {
+				cta=rs.getInt("dato");
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+		if (cta==0) {
+			return false;
+		}else return true;	
+	}
+public boolean actualiZareXpira(String email, Date fecha, String password){
+	int cta=0;
+	String sql = "UPDATE usuarios SET Contra_Xpira=?, password= Md5(?) WHERE email=?";
+	try {
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setDate(1, new java.sql.Date(fecha.getTime()));
+		st.setString(2, password);
+		st.setString(3, email);
+		
+	    cta=st.executeUpdate();
+		st.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		System.out.println("Error en el procedimiento");
+	}
+	if (cta==0) {
+		return false;
+	}else return true;
+	
 }
+public boolean actualizarEstado(String email){
+	int cta=0;
+	String sql = "UPDATE usuarios SET estado='I'  WHERE email=?";
+	try {
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setString(1, email);
+		
+	    cta=st.executeUpdate();
+		st.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		System.out.println("Error en el procedimiento");
+	}
+	if (cta==0) {
+		return false;
+	}else return true;
+	
+}
+public boolean loginCheckEmailInactivo(String email) {
+	
+	String sql="Select count(*) as dato from usuarios where email=? and estado='I'";
+	int cta=0;
+	
+	try {
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, email);
+		
+		ResultSet rs=st.executeQuery();
+		
+		if (rs.next()) {
+			cta=rs.getInt("dato");
+		}
+		rs.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return false;
+	}
+	
+	if (cta==0) {
+		return false;
+	}else return true;	
+}
+}
+

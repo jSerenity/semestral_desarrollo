@@ -38,7 +38,9 @@
 				</span>
 
 				<div class="wrap-input1 validate-input" >
+				<%if(request.getAttribute("upProdResponse")!=null){%>
 					<P class="input1"><% out.println(request.getAttribute("upProdResponse"));%>	</p>
+					<%}%>
 					<span class="shadow-input1"></span>
 				</div>
 				<div class="row">
@@ -77,7 +79,7 @@
 					</div>
 				</div>
 				<div class="container-contact1-form-btn">
-				<a class="contact1-form-btn" href="/Proyecto_Semestral_Final/ServletInventario?accion=updateProd">Regresar
+				<a class="contact1-form-btn" href="AdminUsers?accion=inicio">Regresar inicio
 					<span>
 						<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 					</span>

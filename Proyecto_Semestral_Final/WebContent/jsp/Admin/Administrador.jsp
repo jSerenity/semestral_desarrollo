@@ -11,10 +11,11 @@
   <script src="<%=request.getContextPath()%>/vendor/jquery/jquery-3.2.1.min.js"></script>
   <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/popper.min.js"></script>
   <script src="<%=request.getContextPath()%>/vendor/bootstrap/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <%@include file="../barra.jsp" %>
-<div class="container">
+<div class="container" >
 
 </div>
 
