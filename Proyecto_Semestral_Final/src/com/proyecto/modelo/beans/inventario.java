@@ -44,6 +44,33 @@ public class inventario {
 		return lista;
 		
 	}
+public ArrayList<Producto>  getproductosStock(){
+		
+		ArrayList<Producto>  lista = new ArrayList<Producto>(); 
+		String sql="SELECT B.Codigo,B.Nombre, IFNULL(A.Existencia, 0 ) AS Existencia ,IFNULL(A.Vendidos, 0 ) AS Vendidos ,IFNULL(A.Total, 0 ) As Total , B.Precio_Unitario FROM inventario A INNER JOIN productos B ON A.CodigoProducto=B.Codigo";
+		try {
+			PreparedStatement st = con.prepareStatement(sql);
+			ResultSet rs=st.executeQuery();
+			while (rs.next()) {
+				Producto objeto = new Producto();
+				objeto.setCodigo(rs.getString("Codigo"));
+				objeto.setNombre(rs.getString("nombre"));	
+				objeto.setExistencia(rs.getInt("Existencia"));
+				objeto.setVendidos(rs.getInt("Vendidos"));	
+				objeto.setTotal(rs.getInt("Total"));
+				objeto.setPrecio(rs.getDouble("Precio_Unitario"));
+				lista.add(objeto);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Error en la consulta");
+		}
+		
+		return lista;
+		
+	}
 	public boolean  UpdateInventario(Producto prod){
 		int cta=0;
 		try {

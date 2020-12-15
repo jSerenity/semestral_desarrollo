@@ -1,3 +1,4 @@
+<%@page session="true" %>
 <nav class="navbar navbar-expand-sm bg-dark navbar-dark custom_navBar">
   <!-- Brand/logo -->
   <a class="navbar-brand" href="#">EGPH</a>

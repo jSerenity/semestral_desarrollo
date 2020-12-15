@@ -1,9 +1,11 @@
 package com.cajera;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -17,10 +19,15 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+import com.inventario.string;
 import com.proyecto.modelo.beans.Producto;
 import com.proyecto.modelo.beans.caja;
 import com.proyecto.modelo.beans.cliente;
+import com.proyecto.modelo.beans.factura;
 import com.proyecto.modelo.beans.inventario;
+import com.sun.glass.ui.CommonDialogs.Type;
 
 /**
  * Servlet implementation class ServletCajera
@@ -127,12 +134,12 @@ public class ServletCajera extends HttpServlet {
 				 response.getWriter().write(clientejson);
 			 }else if(accion.equals("CrearFactura")) {
 				 ArrayList<cliente> lista = new caja(con).getClientes();
-				 ArrayList<Producto> listaProd = new inventario(con).getproductos();
+				 ArrayList<Producto> listaProd = new inventario(con).getproductosStock();
 					if (lista.isEmpty()) {
 						
 					}else {
 						
-						request.setAttribute("clientesR", lista);
+						request.setAttribute("clientesr", lista);
 						sesion.setAttribute("clientes",lista);
 					}
 					
@@ -237,6 +244,42 @@ public class ServletCajera extends HttpServlet {
 						}
 					 getServletContext().getRequestDispatcher(rutaJsp+"/cajera/updateClient/respuestaUpdateClient.jsp").forward(request,response);
 					
+			 }else if(accion.equals("facturar")) {
+				String data = request.getParameter("data");
+				String cliente = request.getParameter("cliente");
+				
+				ArrayList<ArrayList<String>> prueba = new  ArrayList<ArrayList<String>>();
+				JsonObject json = new JsonObject();
+				
+				String productojson = this.gson.toJson(data);
+				
+				
+				 Gson converter = new Gson();                  
+				    java.lang.reflect.Type type = new TypeToken<ArrayList<ArrayList<String>>>(){}.getType();
+				    ArrayList<ArrayList<String>> list =  converter.fromJson(data, type );
+				    ArrayList<factura> productosL = new ArrayList<factura>();
+				    double monto=0.0;
+				    for (ArrayList<String> content : list) {
+				    	factura v =  new factura();
+			    		v.setCodigo(content.get(1));
+				    	v.setCantidad(Integer.parseInt(content.get(3)));
+				    	v.setPrecio(Double.parseDouble(content.get(4)));	
+				    	v.setTotal(Double.parseDouble(content.get(5)));	
+				    	monto=monto+ v.getTotal();
+				    	productosL.add(v);
+				    }
+				    System.out.println(cliente+"/ "+ monto);
+				  int facturaID= new caja(con).crearFactura(cliente, monto);
+				  System.out.println(facturaID);
+			    for(factura f: productosL) {
+			    	
+			    	boolean result = new caja(con).insertar_productos_de_factura(facturaID, f);
+			    	if(result) {
+			    		System.out.println("GEST");
+			    	}
+			    }
+			    
+				System.out.println(productojson);
 			 }
 		}
 		else {

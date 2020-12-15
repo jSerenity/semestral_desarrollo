@@ -1,4 +1,7 @@
-<%@page session="true" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+ <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
+ <%@page session="true" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,44 +29,60 @@
 <body>
 
 <%@include file="../../barra.jsp" %>
-
+<% int i=0; String color=""; %>
 	<div class="contact1">
 		<div class="container-contact1">
-
-			<div class="contact1-pic js-tilt" data-tilt>
-				<img src="images/img-03.png" alt="IMG">
-			</div>
-
-			<form class="contact1-form validate-form" method="post" action="/Proyecto_Semestral_Final/AdminUsers?accion=userUpdate" >
+			<form style="width: 100%;">
 				<span class="contact1-form-title">
-					Busqueda de usuario por correo
+					lista de facturas
 				</span>
 
-				<div class="wrap-input1 validate-input" data-validate = "El correo es requerido: ejemplo@abc.com">
-					<input class="input1" type="text" name="email" id="email" placeholder="Correo Electrónico">
+				<div class="wrap-input1 validate-input" >
+					<P class="input1"><% out.println(request.getAttribute("upProdResponse"));%>	</p>
 					<span class="shadow-input1"></span>
 				</div>
-
+				<div class="row">
+					<div class="col">
+						<table class="table table-sm table-hover table-bordered table-responsive-lg">
+							<thead>
+								<tr>
+									<th>Codigo</th>
+									<th>Nombre</th>
+									<th>Precio</th>
+									<th>Cantidad inicial</th>
+									<th>Cantidad Vendida</th>
+									<th>Cantidad stock</th>
+								</tr>
+							</thead>
+							<c:forEach items="${productos}" var="objeto">
+							<%  if (i==0){ 
+									color="table-success";
+									i=1;
+								}else {
+									color="bg-primary text-white";
+									i=0;
+								}
+							
+							%>	
+								<tr class="<%=color%>">
+									<td><c:out value="${objeto.codigo}"/></td>
+									<td><c:out value="${objeto.nombre}"/></td>
+									<td><c:out value="${objeto.precio}"/></td>
+									<td><c:out value="${objeto.existencia}"/></td>
+									<td><c:out value="${objeto.vendidos}"/></td>
+									<td><c:out value="${objeto.total}"/></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+				</div>
 				<div class="container-contact1-form-btn">
-					<button  class="contact1-form-btn">
-						<span>
-							Buscar Usuario
-							<i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-						</span>
-					</button>
-					
+				<a class="contact1-form-btn" >Regresar
+					<span>
+						<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+					</span>
+				</a>
 				</div>
-				<%if(request.getAttribute("error")!=null){%>
-				<div class="wrap-input1 validate-input" >
-					<P class="input1"><% out.println(request.getAttribute("error"));%>	</p>
-					<span class="shadow-input1"></span>
-				</div>
-		      <%} if(request.getAttribute("good")!=null){%>
-				<div class="wrap-input1 validate-input" >
-					<P class="input1"><% out.println(request.getAttribute("good"));%>	</p>
-					<span class="shadow-input1"></span>
-				</div>
-				<%}%>
 			</form>
 			
 		</div>
@@ -87,7 +106,5 @@
 		})
 	</script>
 <!--===============================================================================================-->
-	<script src="<%=request.getContextPath()%>/js/validateUpdate.js"></script>
-
 </body>
 </html>

@@ -118,4 +118,50 @@ public boolean  UpdateInventario(cliente cli){
 		return false;	
 	}else return true;			
 }
+public int crearFactura(String clienteId, double p_monto) {
+	
+	int cta=0;
+	try {
+		PreparedStatement st = con.prepareCall("{call sp_insert_factura(?,?)}");
+		st.setString(1, clienteId);
+		st.setDouble(2, p_monto);
+		
+		ResultSet rs=st.executeQuery();
+		
+		if (rs.next()) {
+			cta=rs.getInt("dato");
+		}
+		rs.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return 0;
+	}
+	return cta;
+}
+public boolean insertar_productos_de_factura(int idFact,factura list) {
+	
+	int cta=0;
+	try {
+		PreparedStatement st = con.prepareCall("{call sp_insertar_productos_factura(?,?,?,?)}");
+		st.setInt(1, idFact);
+		st.setString(2, list.getCodigo());
+		st.setInt(3, list.getCantidad());
+		st.setDouble(4, list.getTotal());
+
+		ResultSet rs=st.executeQuery();
+		if (rs.next()) {
+			cta=rs.getInt("resultado");
+		}
+		rs.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		System.out.println("Error en el procedimiento");
+	}
+	if (cta==0) {
+		return false;
+	}else return true;
+	
+}
 }

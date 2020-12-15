@@ -55,6 +55,7 @@
 	<div class="contact1">
 		<div class="container-contact1">
 	
+			<!-- <form style="width: 100%;" method="post" action="/Proyecto_Semestral_Final/ServletCajera?accion=facturar" >-->
 			<form style="width: 100%;">
 				<span class="contact1-form-title">
 					Creación de factura
@@ -63,7 +64,21 @@
 				
 				<div class="row">
 					<div class="col">
-						 <form>
+						 <div>
+						 <div class="wrap-input1 validate-input" data-validate = "Tipo de usuario requerido">
+					<label for="formGroupExampleInput">Seleccione el ccliente</label>
+					<select class="input1" style="
+						    height: 50px;
+						    border-radius: 25px;
+						    padding: 0 30px;
+						" id="codigoCliente" name="codigoCliente" >
+					    <option value="" disabled selected>Seleccione una opcion</option>	   
+					    <c:forEach items="${clientesr}" var="cli">
+				        <option value="${cli.id}">${cli.nombre}</option>
+				    </c:forEach>
+					</select>
+					<span class="shadow-input1"></span>
+				</div>
         <div class="wrap-input1 validate-input" data-validate = "Tipo de usuario requerido">
 					<label for="formGroupExampleInput">Seleccione el producto</label>
 					<select class="input1" style="
@@ -84,7 +99,7 @@
 					<span class="shadow-input1"></span>
 				</div>
     	<input type="button" class="contact1-form-btn" id="agregar" value="Agregar">
-    </form>
+    </div>
     <table>
         <thead>
             <tr>
@@ -98,13 +113,14 @@
             </tr>
         </thead>
         <tbody>
-
+        
         </tbody>
     </table>
 					</div>
 				</div>
+				
 				<div class="container-contact1-form-btn">
-				<a class="contact1-form-btn" href="/Proyecto_Semestral_Final/ServletInventario?accion=updateProd">Regresar
+				<a class="contact1-form-btn" id="submit">Crear factura
 					<span>
 						<i class="fa fa-long-arrow-left" aria-hidden="true"></i>
 					</span>
@@ -155,10 +171,11 @@
 		            console.log(Total);
 		    		console.log(cantidad);
 		    		if(Total>=cantidad){
-		    			var markup = "<tr><td><input type='checkbox' name='record'></td><td>" + codigo + "</td><td>"+Nombre+"</td><td>" + cantidad +"</td><td>"+precio+"</td><td>"+valor+ "</td><td><a class='btn btn-xs delete-record' data-id='0'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td></tr> ";
+		    			var markup = "<tr><td><input type='checkbox' name='record'></td><td name='test'>" + codigo + "</td><td>"+Nombre+"</td><td>" + cantidad +"</td><td>"+precio+"</td><td>"+valor+ "</td><td><a class='btn btn-xs delete-record' data-id='0'><i class='fa fa-trash-o' aria-hidden='true'></i></a></td><input type = 'hidden' name = 'someName' value = 'someData'></tr> ";
 		                $("table tbody").append(markup);
+		                console.log(get());
 		    		}else{
-		    			toastr.info('No hay stock suficiente para esta cantidad: '+cantidad)
+		    			toastr.info('No hay suficiente stock de'+ Nombre+ ' para esta cantidad: '+cantidad)
 		    		}
 		        });
     		}
@@ -179,7 +196,38 @@
             return false;
           }
         });
-    });    
+        $("#submit").click(function() {
+        	   //var orderId =  $("#orderId").val();
+				var codigo = $("#codigoCliente").val();
+        	   $.post('ServletCajera', {
+        		   dataType: 'json',
+            	accion:'facturar',
+            	cliente:codigo,
+            	data: JSON.stringify(get())
+		        },
+        	   function(data) {
+        	     alert("Data Loaded: " + data);
+        	   });
+        	   })
+    }); 
+    function get(){
+    	  var table = $('table');
+    	  var data = [];
+
+    	  table.find('tr').each(function (i, el) {
+    	    // no thead
+    	    if( i != 0){
+    	      var $tds = $(this).find('td');
+    	      var row = [];
+    	      $tds.each(function (i, el){
+    	        row.push($(this).text());
+    	      });
+    	      data.push(row);
+    	    }
+    	        
+    	  });
+    	  return data;
+    	}
 </script>
 <!--===============================================================================================-->
 </body>
